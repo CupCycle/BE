@@ -1,5 +1,6 @@
 package com.example.cupcycle.controller;
 
+import com.example.cupcycle.dto.PurchaseHistoryDto;
 import com.example.cupcycle.entity.PurchaseHistory;
 import com.example.cupcycle.service.ApiResponse;
 import com.example.cupcycle.service.PurchaseService;
@@ -53,8 +54,8 @@ public class PurchaseController {
      * 상품 구매 신청 목록 조회
      */
     @GetMapping("/getPurchaseHistory")
-    public ResponseEntity<ApiResponse<List<PurchaseHistory>>> getPurchaseHistory() {
-        List<PurchaseHistory> purchaseHistoryList = purchaseService.getPurchaseHistory();
+    public ResponseEntity<ApiResponse<List<PurchaseHistoryDto>>> getPurchaseHistory() {
+        List<PurchaseHistoryDto> purchaseHistoryList = purchaseService.getPurchaseHistory();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse<>(true,200, "구매 신청 목록 조회에 성공하였습니다.", purchaseHistoryList));
     }
