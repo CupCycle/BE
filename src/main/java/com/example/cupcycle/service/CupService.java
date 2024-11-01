@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +101,18 @@ public class CupService {
         student.increaseReward(REWARD);
         studentRepository.save(student);
 
+        // 추가 리워드 지급 조건 확인 및 지급
+        int cupCount = student.getCupCount();
+        if (cupCount == 3 || cupCount == 5 || cupCount == 10) {
+            student.increaseReward(300); // 300포인트 추가
+            studentRepository.save(student); // 추가 리워드 저장
+        }
+
         return new ApiResponse<>(true, 1000, "컵 상태와 학생 보상이 성공적으로 업데이트되었습니다.");
+    }
+
+    public Optional<Cup> findByQrCode(String qrCode) {
+        return cupRepository.findCupByQrcode(qrCode);
     }
 
     private void updateCupStatus(Cup cup, Cup.CupStatus newStatus) {
